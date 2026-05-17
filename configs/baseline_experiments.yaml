@@ -1,0 +1,27 @@
+# 6 traditional ML baselines (BiLSTM + SVM)
+bilstm:
+  num_epochs: 10
+  batch_size: 64
+  lr: 1.0e-3
+  emb_dim: 300
+  hidden: 256
+  num_layers: 2
+  dropout: 0.3
+  max_len: 128
+  weight_decay: 0.01
+  patience: 3
+  seed: 42
+  experiments:
+    - {name: bilstm_sst2, task: sst2}
+    - {name: bilstm_qqp,  task: qqp}
+    - {name: bilstm_stsb, task: stsb}
+
+svm:
+  max_features: 200000
+  ngram_max: 2
+  C: 1.0
+  seed: 42
+  experiments:
+    - {name: svm_sst2, task: sst2}
+    - {name: svm_qqp,  task: qqp}
+    - {name: svm_stsb, task: stsb}

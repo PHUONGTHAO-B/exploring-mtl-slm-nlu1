@@ -1,0 +1,40 @@
+# 7 MTL experiments (3 LoRA + 3 Full SLM + 1 Full BERT-base)
+defaults:
+  learning_rate: 2.0e-5
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  batch_size: 16
+  max_seq_len: 256
+  grad_clip: 1.0
+  seed: 42
+  fp16: true
+  num_epochs: 10
+  early_stop_patience: 3
+  keep_n_ckpts: 2
+  num_workers: 2
+  eval_batch_size: 32
+  tasks: [sst2, qqp, stsb]
+  sampling: proportional      # proportional | uniform | round_robin
+
+experiments:
+  # MTL + LoRA for SLMs
+  - {name: mtl_lora_albert,     model: albert,     lora: true,  setting: mtl_lora}
+  - {name: mtl_lora_distilbert, model: distilbert, lora: true,  setting: mtl_lora}
+  - {name: mtl_lora_minilm,     model: minilm,     lora: true,  setting: mtl_lora}
+
+  # MTL Full Fine-Tuning for SLMs
+  - {name: mtl_full_albert,     model: albert,     lora: false, setting: mtl_full_ft}
+  - {name: mtl_full_distilbert, model: distilbert, lora: false, setting: mtl_full_ft}
+  - {name: mtl_full_minilm,     model: minilm,     lora: false, setting: mtl_full_ft}
+
+  # MTL Full Fine-Tuning BERT-base (large baseline)
+  - {name: mtl_full_bertbase,   model: bert-base,  lora: false, setting: mtl_full_ft}
+
+lora:
+  r: 8
+  alpha: 16
+  dropout: 0.1
+  target_modules:
+    albert:     [query, key, value]
+    distilbert: [q_lin, k_lin, v_lin, out_lin]
+    minilm:     [query, key, value]

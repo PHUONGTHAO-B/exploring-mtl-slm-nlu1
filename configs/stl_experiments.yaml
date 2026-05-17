@@ -1,0 +1,26 @@
+# 9 SLM STL experiments (full fine-tuning)
+defaults:
+  learning_rate: 2.0e-5
+  weight_decay: 0.01
+  warmup_ratio: 0.1
+  batch_size: 16
+  max_seq_len: 256
+  grad_clip: 1.0
+  seed: 42
+  fp16: true
+  num_epochs: 10
+  early_stop_patience: 3
+  keep_n_ckpts: 2
+  num_workers: 2
+  eval_batch_size: 32
+
+experiments:
+  - {name: stl_albert_sst2,     model: albert,     task: sst2}
+  - {name: stl_albert_qqp,      model: albert,     task: qqp}
+  - {name: stl_albert_stsb,     model: albert,     task: stsb}
+  - {name: stl_distilbert_sst2, model: distilbert, task: sst2}
+  - {name: stl_distilbert_qqp,  model: distilbert, task: qqp}
+  - {name: stl_distilbert_stsb, model: distilbert, task: stsb}
+  - {name: stl_minilm_sst2,     model: minilm,     task: sst2}
+  - {name: stl_minilm_qqp,      model: minilm,     task: qqp}
+  - {name: stl_minilm_stsb,     model: minilm,     task: stsb}
